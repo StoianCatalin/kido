@@ -8,6 +8,8 @@ var cfg = require("../config/passport.config");
 module.exports = {
 
     post_register : function(req, res) {
+    	console.log(req.body);
+    	if (req.body.nume && req.body.prenume && req.body.email && req.body.password && req.body.data_nastere)
         UserModel.create(req.body).then(function(user) {
             var payload = {
                 id: user.id
@@ -19,6 +21,9 @@ module.exports = {
         }, function(err) {
             res.send(err.errors);
         });
+    	else {
+    		res.sendStatus(412);
+    	}
     },
 
     post_login : function(req, res) {

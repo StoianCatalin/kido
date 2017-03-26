@@ -7,17 +7,23 @@ module.exports = function(sequelize, DataTypes) {
                 type: DataTypes.BIGINT,
                 field: 'id',
                 autoIncrement: true,
-                primaryKey: true
+                primaryKey: true,
             },
             nume: {
                 type: DataTypes.STRING,
                 field: 'nume',
-                notNull: true
+                notNull: true,
+                validate: {
+                    notEmpty: true
+                }
             },
             prenume: {
                 type: DataTypes.STRING,
                 field: 'prenume',
-                notNull: true
+                notNull: true,
+                validate: {
+                    notEmpty: true
+                }
             },
             email: {
                 type: DataTypes.STRING,
@@ -25,7 +31,8 @@ module.exports = function(sequelize, DataTypes) {
                 unique: true,
                 notNull: true,
                 validate: {
-                    isEmail: true
+                    isEmail: true,
+                    notEmpty: true
                 }
             },
             password: {
@@ -33,7 +40,8 @@ module.exports = function(sequelize, DataTypes) {
                 field: 'password',
                 notNull: true,
                 validate: {
-                    min: 6
+                    min: 6,
+                    notEmpty: true
                 }
             },
             data_nastere: {
@@ -41,7 +49,8 @@ module.exports = function(sequelize, DataTypes) {
                 field: 'data_nastere',
                 allowNull: true,
                 validate: {
-                    isDate: true
+                    isDate: true,
+                    notEmpty: true
                 }
             },
             facebook: {
