@@ -3,7 +3,7 @@ var database = require('../config/database');
 var UserModel = database.import("../models/UserModel");
 var jwt = require("jwt-simple");
 var cfg = require("../config/passport.config");
-
+var auth = require("../config/auth")();
 
 module.exports = {
 
@@ -83,8 +83,15 @@ module.exports = {
         }
     },
 
-    post_logout : function(req, res) {
-    	var token = req
-    }
+    post_logout : [ auth.authenticate(), function(req, res) {
+    	var me = req.user;
+    	UserModel.update(
+    		{last_token: null},
+    		{where: {id: me.id}}).then(function(){
+    			res.sendStatus(200);
+    		}, function(err) {
+    			res.sendStatus(500)
+    		});
+    }]
 
 };
