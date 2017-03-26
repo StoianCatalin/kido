@@ -10,17 +10,20 @@ module.exports = {
     post_register : function(req, res) {
     	console.log(req.body);
     	if (req.body.nume && req.body.prenume && req.body.email && req.body.password && req.body.data_nastere)
-        UserModel.create(req.body).then(function(user) {
-            var payload = {
-                id: user.id
-            };
-            var token = jwt.encode(payload, cfg.jwtSecret);
-            res.json({
-                token: token
-            });
-        }, function(err) {
-            res.send(err.errors);
-        });
+	        UserModel.create(req.body).then(function(user) {
+	            var token = jwt.encode(payload, cfg.jwtSecret);
+	            var payload = {
+	                id: user.id,
+	                token: token
+	            };
+	            user.lastToken = token;
+	            user.save();
+	            res.json({
+	                token: token
+	            });
+	        }, function(err) {
+	            res.send(err.errors);
+	        });
     	else {
     		res.sendStatus(412);
     	}
@@ -36,10 +39,13 @@ module.exports = {
                 }
             }).then(function(user) {
                 if (user && user.validPassword(password)) {
+                	var token = jwt.encode(payload, cfg.jwtSecret);
                     var payload = {
-                        id: user.id
+                        id: user.id,
+                        token: token
                     };
-                    var token = jwt.encode(payload, cfg.jwtSecret);
+                    user.lastToken = token;
+                    user.save();
                     res.json({
                         token: token
                     });
@@ -54,6 +60,10 @@ module.exports = {
         else {
             res.send("Bad parrameters!");
         }
+    },
+
+    post_logout : function(req, res) {
+    	var token = req
     }
 
 };

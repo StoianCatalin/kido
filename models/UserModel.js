@@ -66,6 +66,10 @@ module.exports = function(sequelize, DataTypes) {
                 validate: {
                     isUrl: true
                 }
+            },
+            last_token: {
+                type: DataTypes.STRING,
+                field: 'lastToken'
             }
         }, {
             instanceMethods: {

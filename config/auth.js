@@ -15,7 +15,8 @@ module.exports = function() {
     var strategy = new Strategy(params, function(payload, done) {
         UserModel.find({
             where: {
-                id: payload.id
+                id: payload.id,
+                last_token: payload.token
             }
         }).then(function(user) {
             if (user) {
