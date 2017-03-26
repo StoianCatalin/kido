@@ -7,7 +7,7 @@ UserModel.sync();
 
 module.exports = {
 
-    post_me : [auth.authenticate(), function(req, res) {
+    get_me : [auth.authenticate(), function(req, res) {
         var me = req.user;
         me = JSON.stringify(me);
         me = JSON.parse(me);
