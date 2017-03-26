@@ -12,6 +12,7 @@ module.exports = {
         me = JSON.stringify(me);
         me = JSON.parse(me);
         me.password = undefined;
+        me.last_token = undefined;
         res.setHeader('Content-Type', 'application/json');
         res.send(JSON.stringify(me));
     }]
