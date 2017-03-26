@@ -1,0 +1,120 @@
+body {
+    background-color: #f4f4f4;
+    width: 100%;
+    height: 100%;
+}
+
+.container-flex {
+    width: 90%;
+    max-width: 1200px;
+    margin:auto;
+    justify-content: space-between;
+    display:flex;
+    align-items: center;
+}
+
+.topbar {
+    width: 100%;
+    height: 50px;
+    background-color: #101C33;
+    color:#fff;
+    line-height: 50px;
+}
+.ui.sidebar .logo {
+    margin: 10px;
+    text-align:center;
+}
+.ui.sidebar .logo i {
+    display:block;
+    margin:auto;
+}
+.logo {
+    flex-grow: 1;
+    font-weight: 100;
+    color:#fff;
+    font-size: 20px;
+    position:relative;
+    margin: 0;
+}
+.logo i {
+    color:#ABF73D;
+}
+.logo span {
+    font-size: 10px;
+}
+.actions {
+    flex-grow: 4;
+    margin-right: auto;
+    text-align: right;
+    justify-content: center;
+    align-items: center;
+}
+.actions .ui.button.icon.logout {
+    background: transparent;
+    color:#fff;
+    transition: all ease 0.3s;
+}
+.actions .ui.button.icon.logout:hover {
+    background: rgba(171, 247, 61, 0.7);
+}
+
+
+.content {
+    width: 100%;
+    margin-top: 10px;
+}
+
+.card {
+    text-align:center;
+    width: 90%;
+    padding: 10px;
+    box-sizing: border-box;
+    max-width: 1024px;
+    background:#fff;
+    border: 1px solid #f1f1f1;
+    min-height: 300px;
+    margin:auto;
+}
+.card .choose-type {
+    margin:auto;
+}
+.ui.button.blue {
+    background-color: #101C33;
+}
+.ui.button.green {
+    background-color:#ABF73D;
+}
+footer {
+    margin:auto;
+    margin-top: 10px;
+    text-align: center;
+    width: 90%;
+    max-width: 1024px;
+    color: #b2b2b2;
+}
+.open-menu {
+    cursor:pointer;
+}
+.open-menu i {
+    color:#fff;
+    font-size: 20px;
+}
+.open-menu i:hover {
+    color:#ABF73D;
+}
+.ui.form .field {
+    text-align: left;
+}
+.ui.form .buttons {
+    text-align:right;
+}
+.ui.dropdown.logout > .menu {
+    margin-top: 7px !important;
+}
+
+
+#map {
+    width: 100%;
+    height: 400px;
+    background-color: grey;
+}
