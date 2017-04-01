@@ -1,9 +1,9 @@
 var express = require('express');
-var database = require('../config/database');
-var UserModel = database.import("../models/UserModel");
+var database = require('../../config/database');
+var UserModel = database.import("../../models/UserModel");
 var jwt = require("jwt-simple");
-var cfg = require("../config/passport.config");
-var auth = require("../config/auth")();
+var cfg = require("../../config/passport.config.js");
+var auth = require("../../config/auth")();
 
 module.exports = {
 

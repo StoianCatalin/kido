@@ -1,0 +1,33 @@
+<div class="card">
+  <h2 class="ui center aligned icon header">
+    <i class="child icon"></i>
+    Ok, here you go...
+    <div class="sub header">Kimo is one of the best platform for watching your kids in the world.</div>
+  </h2>
+  <form class="ui form">
+    <div class="field">
+      <label>First Name</label>
+      <input type="text" name="first-name">
+    </div>
+    <div class="field">
+      <label>Last Name</label>
+      <input type="text" name="last-name">
+    </div>
+    <div class="field">
+      <label>Email</label>
+      <input type="email" name="email">
+    </div>
+    <div class="field">
+      <label>Password</label>
+      <input type="password" name="password">
+    </div>
+    <div class="field">
+      <label>Confirm password</label>
+      <input type="password" name="confirm-password">
+    </div>
+    <div class="buttons">
+      <button class="ui button blue" type="submit">Register</button>
+    </div>
+    <a [routerLink]="['/login']">I already have an account.</a>
+  </form>
+</div>

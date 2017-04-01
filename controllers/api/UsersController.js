@@ -1,7 +1,7 @@
 var express = require('express');
-var database = require('../config/database');
-var UserModel = database.import("../models/UserModel");
-var auth = require('../config/auth')();
+var database = require('../../config/database');
+var UserModel = database.import("../../models/UserModel");
+var auth = require('../../config/auth')();
 
 UserModel.sync();
 

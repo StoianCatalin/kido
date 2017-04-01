@@ -49,8 +49,7 @@ module.exports = function(sequelize, DataTypes) {
                 field: 'data_nastere',
                 allowNull: true,
                 validate: {
-                    isDate: true,
-                    notEmpty: true
+                    isDate: true
                 }
             },
             facebook: {

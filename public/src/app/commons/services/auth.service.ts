@@ -1,0 +1,14 @@
+import { Injectable } from '@angular/core';
+
+@Injectable()
+export class AuthService {
+
+  private authStatus : boolean = false;
+
+  constructor() { }
+
+  isAuthentificated() {
+    return this.authStatus;
+  }
+
+}
