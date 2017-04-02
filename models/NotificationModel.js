@@ -11,7 +11,7 @@ module.exports = function(sequelize, DataTypes) {
                 field: 'prent_fk',
                 notNull: true,
                 references: {
-                    model: user,
+                    model: 'users',
                     key: 'id'
                 }
             },
@@ -20,7 +20,7 @@ module.exports = function(sequelize, DataTypes) {
                 field: 'child_fk',
                 notNull: true,
                 references: {
-                    model: user,
+                    model: 'users',
                     key: 'id'
                 }
             },
