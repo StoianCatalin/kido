@@ -9,10 +9,10 @@ export class AuthService{
   private token : string = null;
 
   constructor() {
-    this.token = localStorage.token;
+    this.token = sessionStorage.token;
     if (this.token) {
       this.authStatus = true;
-      this.user = localStorage.user;
+      this.user = sessionStorage.user;
     }
   }
 
@@ -27,20 +27,20 @@ export class AuthService{
 
   setToken(token) {
     this.token = token;
-    localStorage.token = this.token;
+    sessionStorage.token = this.token;
     this.authStatus = true;
   }
 
   setUser(user: User) {
     this.user = user;
-    localStorage.user = this.user;
+    sessionStorage.user = this.user;
   }
 
   logout() {
     this.token = null;
     this.user = null;
-    localStorage.removeItem('token');
-    localStorage.removeItem('user');
+    sessionStorage.removeItem('token');
+    sessionStorage.removeItem('user');
     this.authStatus = false;
 }
 
