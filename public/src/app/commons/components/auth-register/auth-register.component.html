@@ -4,29 +4,38 @@
     Ok, here you go...
     <div class="sub header">Kimo is one of the best platform for watching your kids in the world.</div>
   </h2>
-  <form class="ui form">
+  <form class="ui form" #registerForm="ngForm">
     <div class="field">
       <label>First Name</label>
-      <input type="text" name="first-name">
+      <input type="text" [(ngModel)]="user.nume" name="nume" required>
     </div>
     <div class="field">
       <label>Last Name</label>
-      <input type="text" name="last-name">
+      <input type="text" [(ngModel)]="user.prenume" name="prenume" required>
     </div>
     <div class="field">
       <label>Email</label>
-      <input type="email" name="email">
+      <input type="email" [(ngModel)]="user.email" name="email" required [email]>
     </div>
     <div class="field">
       <label>Password</label>
-      <input type="password" name="password">
+      <input type="password" [(ngModel)]="user.password" #password="ngModel" name="password" required [minLength]="6">
     </div>
     <div class="field">
       <label>Confirm password</label>
-      <input type="password" name="confirm-password">
+      <input type="password" [(ngModel)]="user.conf_password" name="conf_password" required [equalTo]="password">
+    </div>
+    <div class="ui selection dropdown" #type>
+      <input type="hidden" name="type" (change)="onChangeType($event.target.value)">
+      <i class="dropdown icon"></i>
+      <div class="default text">What are you?</div>
+      <div class="menu">
+        <div class="item" data-value="parent">Parent</div>
+        <div class="item" data-value="child">Child</div>
+      </div>
     </div>
     <div class="buttons">
-      <button class="ui button blue" type="submit">Register</button>
+      <button class="ui button blue" [ngClass]="{'disabled': !registerForm.valid}" type="submit" (click)="submit()">Register</button>
     </div>
     <a [routerLink]="['/login']">I already have an account.</a>
   </form>

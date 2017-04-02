@@ -7,11 +7,15 @@ import { ChooseTypeComponent } from './components/choose-type/choose-type.compon
 import { AuthLoginComponent } from './components/auth-login/auth-login.component';
 import { AuthRegisterComponent } from './components/auth-register/auth-register.component';
 import { RouterModule } from '@angular/router';
+import { CustomFormsModule } from 'ng2-validation'
+import { FormsModule } from '@angular/forms';
 
 @NgModule({
   imports: [
     CommonModule,
-    RouterModule
+    RouterModule,
+    CustomFormsModule,
+    FormsModule
   ],
   declarations: [
     SlidebarComponent,

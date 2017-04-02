@@ -29,11 +29,13 @@ app.use(auth.initialize());
 
 express.middleware = middleware;
 
-app.use(router);
+app.use('/api', router);
 //Tell expressControllers to use the controllers-directory, and use bind() to set up routing.
 expressControllers
     .setDirectory( __dirname + '/controllers')
     .bind(router);
+
+app.use(router);
 
 app.use('/', index);
 

@@ -8,8 +8,9 @@ import { ChildModule } from './child/child.module';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import {AuthService} from "./commons/services/auth.service";
-import {AuthGuard} from "./commons/guards/auth.guard";
+import {AuthService} from "./commons/services/auth/auth.service";
+import {HttpClientService} from "./commons/services/http-client/http-client.service";
+import {UserService} from "./commons/services/user/user.service";
 
 @NgModule({
   declarations: [
@@ -25,8 +26,9 @@ import {AuthGuard} from "./commons/guards/auth.guard";
     ChildModule
   ],
   providers: [
-    AuthGuard,
-    AuthService
+    AuthService,
+    HttpClientService,
+    UserService
   ],
   bootstrap: [AppComponent]
 })
