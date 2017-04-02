@@ -11,7 +11,6 @@ module.exports = {
         var me = JSON.parse(JSON.stringify(req.user));
         me.password = undefined;
         me.last_token = undefined;
-        console.log(1);
         res.setHeader('Content-Type', 'application/json');
         res.send(JSON.stringify(me));
     }]

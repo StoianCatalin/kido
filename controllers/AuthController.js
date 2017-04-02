@@ -2,10 +2,14 @@ var express = require('express');
 var database = require('../config/database');
 var UserModel = database.import("../models/UserModel");
 var jwt = require("jwt-simple");
-var cfg = require("../config/passport.config");
+var cfg = require("../config/passport.config.js");
 var auth = require("../config/auth")();
 
 module.exports = {
+
+    post_index: function(req, res) {
+      res.sendStatus(200);
+    },
 
     post_register : function(req, res) {
         var randomString = function() {
@@ -15,7 +19,7 @@ module.exports = {
                 text += possible.charAt(Math.floor(Math.random() * possible.length));
             return text;
         };
-    	if (req.body.nume && req.body.prenume && req.body.email && req.body.password && req.body.data_nastere)
+    	if (req.body.nume && req.body.prenume && req.body.email && req.body.password)
 	        UserModel.create(req.body).then(function(user) {
 	            var tokenKey = randomString();
                 var payload = {

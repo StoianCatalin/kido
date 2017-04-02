@@ -6,6 +6,6 @@ export class PublicPage {
   }
 
   getParagraphText() {
-    return element(by.css('kd-root h1')).getText();
+    return element(by.css('km-root h1')).getText();
   }
 }

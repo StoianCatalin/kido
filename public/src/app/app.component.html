@@ -1,3 +1,8 @@
-<h1>
-  {{title}}
-</h1>
+<km-slidebar ngClass="ui sidebar inverted vertical menu" #sidebar></km-slidebar>
+<div class="pusher">
+  <km-navbar [slidebar]="sidebar"></km-navbar>
+  <div class="content">
+    <router-outlet></router-outlet>
+  </div>
+  <km-footer></km-footer>
+</div>

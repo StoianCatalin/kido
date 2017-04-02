@@ -7,7 +7,7 @@ module.exports = function(sequelize, DataTypes) {
                 type: DataTypes.BIGINT,
                 field: 'id',
                 autoIncrement: true,
-                primaryKey: true,
+                primaryKey: true
             },
             nume: {
                 type: DataTypes.STRING,
@@ -49,8 +49,7 @@ module.exports = function(sequelize, DataTypes) {
                 field: 'data_nastere',
                 allowNull: true,
                 validate: {
-                    isDate: true,
-                    notEmpty: true
+                    isDate: true
                 }
             },
             facebook: {
@@ -70,6 +69,12 @@ module.exports = function(sequelize, DataTypes) {
             last_token: {
                 type: DataTypes.STRING,
                 field: 'lastToken'
+            },
+            type: {
+                type: DataTypes.STRING,
+                validate: {
+                    isIn: [['child', 'parent']]
+                }
             }
         }, {
             instanceMethods: {

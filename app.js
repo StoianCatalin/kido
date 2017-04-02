@@ -15,7 +15,6 @@ var auth = require("./config/auth.js")();
 
 var index = require('./routes/index');
 
-
 app.use(logger('dev'));
 app.use(express.static(path.join(__dirname, 'public/dist')));
 app.use(require('cookie-parser')());
@@ -30,13 +29,15 @@ app.use(auth.initialize());
 
 express.middleware = middleware;
 
-app.use(router);
-app.use('/', index);
+app.use('/api', router);
 //Tell expressControllers to use the controllers-directory, and use bind() to set up routing.
 expressControllers
     .setDirectory( __dirname + '/controllers')
     .bind(router);
 
+app.use(router);
+
+app.use('/', index);
 
 // error handler
 app.use(function (err, req, res, next) {
