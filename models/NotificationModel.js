@@ -1,3 +1,5 @@
+var express = require('express');
+
 module.exports = function(sequelize, DataTypes) {
     return sequelize.define('notification', {
             id: {
@@ -11,7 +13,7 @@ module.exports = function(sequelize, DataTypes) {
                 field: 'prent_fk',
                 notNull: true,
                 references: {
-                    model: user,
+                    model: 'users',
                     key: 'id'
                 }
             },
@@ -20,7 +22,7 @@ module.exports = function(sequelize, DataTypes) {
                 field: 'child_fk',
                 notNull: true,
                 references: {
-                    model: user,
+                    model: 'users',
                     key: 'id'
                 }
             },

@@ -1,5 +1,5 @@
 module.exports = function(sequelize, DataTypes) {
-    return sequelize.define('lcationPoint', {
+    return sequelize.define('locationPoint', {
             id: {
                 type: DataTypes.BIGINT,
                 field: 'id',
@@ -11,7 +11,7 @@ module.exports = function(sequelize, DataTypes) {
                 field: 'user_fk',
                 notNull: true,
                 references: {
-                    model: user,
+                    model: 'users',
                     key: 'id'
                 }
             },

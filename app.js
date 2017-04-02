@@ -6,7 +6,7 @@ var bodyParser = require('body-parser');
 var expressControllers = require('express-controller');
 var database = require('./config/database');
 var middleware = require('./middleware/middleware');
-
+require('./runDatabase')(false);
 
 var app = express();
 var router = express.Router();

@@ -1,3 +1,4 @@
+
 module.exports = function(sequelize, DataTypes) {
     return sequelize.define('interesArea', {
             id: {
@@ -11,7 +12,7 @@ module.exports = function(sequelize, DataTypes) {
                 field: 'parent_fk',
                 notNull: true,
                 references: {
-                    model: user,
+                    model: 'users',
                     key: 'id'
                 }
             },
@@ -24,7 +25,7 @@ module.exports = function(sequelize, DataTypes) {
                 type: DataTypes.DATEONLY,
                 field: 'createdDate',
                 notNull: true
-            }
+            },
             updatedDate: {
                 type: DataTypes.DATEONLY,
                 field: 'updatedDate',
