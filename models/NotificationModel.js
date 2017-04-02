@@ -1,3 +1,5 @@
+var express = require('express');
+
 module.exports = function(sequelize, DataTypes) {
     return sequelize.define('notification', {
             id: {
