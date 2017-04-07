@@ -4,18 +4,28 @@
     Ok, here you go...
     <div class="sub header">Kimo is one of the best platform for watching your kids in the world.</div>
   </h2>
-  <form class="ui form">
+  <form class="ui form" #loginForm="ngForm">
     <div class="field">
       <label>Email</label>
-      <input type="email" name="email">
+      <input type="email" [(ngModel)]="email" name="email" required [email]>
     </div>
     <div class="field">
       <label>Password</label>
-      <input type="password" name="password">
+      <input type="password" [(ngModel)]="password" name="password" required [minLength]="6">
     </div>
     <div class="buttons">
-      <button class="ui button blue" type="submit">Login</button>
+      <button class="ui button blue" type="button" [disabled]="!loginForm.valid" (click)="submit()">Login</button>
     </div>
     <a [routerLink]="['/register']">I don't have an account.</a>
   </form>
+  <div class="ui error message" *ngIf="isError">
+    <i class="close icon" (click)="hideMessage()"></i>
+    <div class="header">
+      Oops! Something work wrong!
+    </div>
+    <ul class="list">
+      <li>Please check if you type correct the password.</li>
+      <li>If you don't have an account, then you can make one <a [routerLink]="['/register']">here</a></li>
+    </ul>
+  </div>
 </div>

@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import {UserService} from "../../services/user/user.service";
+import {Router} from "@angular/router";
 
 @Component({
   selector: 'km-auth-login',
@@ -7,9 +9,25 @@ import { Component, OnInit } from '@angular/core';
 })
 export class AuthLoginComponent implements OnInit {
 
-  constructor() { }
+  public email : string;
+  public password: string;
+  public isError: boolean = false;
+
+  constructor(private userService: UserService, private router: Router) { }
 
   ngOnInit() {
+  }
+
+  submit() {
+    this.userService.login(this.email, this.password).subscribe((response) => {
+      this.router.navigate(['/home']);
+    }, () => {
+      this.isError = true;
+    });
+  }
+
+  hideMessage() {
+    this.isError = false;
   }
 
 }

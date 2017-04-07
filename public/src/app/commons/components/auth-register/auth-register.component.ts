@@ -35,12 +35,10 @@ export class AuthRegisterComponent implements OnInit, AfterViewInit {
   submit() {
     if (this.registerForm.valid) {
       this.userService.register(this.user)
-        .subscribe((response) => {
+        .subscribe(() => {
           this.user = new User();
           this.router.navigate(['/home']);
-        }, (err) => {
-        console.log(err.statusText);
-      });
+        });
     }
   }
 
