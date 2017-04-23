@@ -10,7 +10,7 @@ import {BasedOnTypeGuard} from "./commons/guards/based-on-type/based-on-type.gua
 import {NotAuthGuard} from "./commons/guards/not-auth/not-auth.guard";
 
 const routes: Routes = [
-  { path: '', component: ChooseTypeComponent },
+  { path: '', component: ChooseTypeComponent, canActivate: [NotAuthGuard] },
   { path: 'login', component: AuthLoginComponent, canActivate: [NotAuthGuard] },
   { path: 'register', component: AuthRegisterComponent, canActivate: [NotAuthGuard] },
   { path: 'home', component: ParentComponent, canActivate: [AuthGuard] },
