@@ -26,7 +26,7 @@
       <input type="password" [(ngModel)]="user.conf_password" name="conf_password" required [equalTo]="password">
     </div>
     <div class="ui selection dropdown" #type>
-      <input type="hidden" name="type" (change)="onChangeType($event.target.value)">
+      <input type="hidden" name="type" [(ngModel)]="user.type" (change)="onChangeType($event.target.value)" required>
       <i class="dropdown icon"></i>
       <div class="default text">What are you?</div>
       <div class="menu">
@@ -34,8 +34,15 @@
         <div class="item" data-value="child">Child</div>
       </div>
     </div>
+    <div class="field" *ngIf="user.type == 'child'">
+      <label>Parent reference</label>
+      <input type="text" [(ngModel)]="user.parent_reference" name="parent_reference" required >
+    </div>
     <div class="buttons">
       <button class="ui button blue" [ngClass]="{'disabled': !registerForm.valid}" type="submit" (click)="submit()">Register</button>
+    </div>
+    <div class="ui message visible error" *ngIf="showMessage">
+      {{message}}
     </div>
     <a [routerLink]="['/login']">I already have an account.</a>
   </form>

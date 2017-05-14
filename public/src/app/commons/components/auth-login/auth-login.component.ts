@@ -20,7 +20,10 @@ export class AuthLoginComponent implements OnInit {
 
   submit() {
     this.userService.login(this.email, this.password).subscribe((response) => {
-      this.router.navigate(['/home']);
+      this.userService.getMe().subscribe((user) => {
+        this.userService.setUserOnAuth(user);
+        this.router.navigate(['/home']);
+      });
     }, () => {
       this.isError = true;
     });

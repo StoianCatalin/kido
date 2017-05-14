@@ -8,7 +8,7 @@ module.exports = function(sequelize, DataTypes) {
             },
             interesArea_fk: {
                 type: DataTypes.BIGINT,
-                field: 'interesArea_fk',
+                field: 'interesarea_fk',
                 notNull: true,
                 references: {
                     model: 'interesareas',

@@ -1,3 +1,63 @@
-<p>
-  parent works!
-</p>
+<div class="parent-content">
+  <div class="ui stackable grid">
+    <div class="left-panel four wide column">
+      <div class="top-header">
+        Kids List
+      </div>
+      <div class="item">
+        <a class="ui tiny image">
+          <img src="assets/images/boy.jpg" alt="boy">
+        </a>
+        <div class="content">
+          <a class="header">Boy Name</a>
+          <div class="description">
+            <button class="ui icon blue button">
+              <i class="edit icon"></i>
+            </button>
+            <button class="ui icon red button">
+              <i class="remove icon"></i>
+            </button>
+            <button class="ui icon green button">
+              <i class="eye icon"></i>
+            </button>
+            <button class="ui icon blue button">
+              <i class="info icon"></i>
+            </button>
+          </div>
+        </div>
+      </div>
+      <div class="item">
+        <a class="ui tiny image">
+          <img src="assets/images/girl.jpg" alt="boy">
+        </a>
+        <div class="content">
+          <a class="header">Boy Name</a>
+          <div class="description">
+            <button class="ui icon blue button">
+              <i class="edit icon"></i>
+            </button>
+            <button class="ui icon red button">
+              <i class="remove icon"></i>
+            </button>
+            <button class="ui icon green button">
+              <i class="eye icon"></i>
+            </button>
+            <button class="ui icon blue button">
+              <i class="info icon"></i>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="twelve wide column">
+      <agm-map [latitude]="lat" [longitude]="lng" [zoom]="zoom">
+        <agm-marker *ngFor="let marker of markers"
+                    [latitude]="marker.latitude"
+                    [longitude]="marker.longitude"
+                    [title]="marker.nume"
+                    [iconUrl]="marker.type == 'child' ? 'assets/images/child.png' : 'assets/images/parent.png'">
+        </agm-marker>
+      </agm-map>
+    </div>
+  </div>
+</div>

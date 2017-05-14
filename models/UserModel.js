@@ -75,6 +75,12 @@ module.exports = function(sequelize, DataTypes) {
                 validate: {
                     isIn: [['child', 'parent']]
                 }
+            },
+            reference: {
+                type: DataTypes.STRING
+            },
+            parentId: {
+                type: DataTypes.BIGINT
             }
         }, {
             instanceMethods: {

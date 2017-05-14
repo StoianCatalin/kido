@@ -12,19 +12,23 @@ module.exports = function (isForced) {
 
     UserModel.sync({force: isForced});
     InteresAreaModel.sync({force: isForced});
-    InteresPointModel.sync({force: isForced});
     LocationPointModel.sync({force: isForced});
+    InteresPointModel.sync({force: isForced});
     NotificationModel.sync({force: isForced});
     ObjectModel.sync({force: isForced});
 
 
-    UserModel.hasMany(InteresAreaModel, {as: 'InteresAreas', foreignKey: 'parent_fk'});
+    UserModel.belongsTo(UserModel, {as: 'parent', foreignKey: 'parentId', sourceKey: 'id'});
+    UserModel.hasMany(UserModel, {as: 'childs', foreignKey: 'parentId', targetKey: 'id'});
 
-    UserModel.hasMany(LocationPointModel, {as: 'Locations', foreignKey: 'user_fk'});
+    UserModel.hasMany(InteresAreaModel, {as: 'interesareas', foreignKey: 'parent_fk'});
 
-    InteresAreaModel.hasMany(InteresPointModel, {as: 'InteresPoints', foreignKey: 'interesArea_fk'});
+    UserModel.hasMany(LocationPointModel, {as: 'locations', foreignKey: 'user_fk'});
+    LocationPointModel.belongsTo(UserModel, {foreignKey: 'user_fk'});
 
-    UserModel.hasMany(NotificationModel, {as: 'NotificationsFromChild', foreignKey: 'parent_fk'});
+    InteresAreaModel.hasMany(InteresPointModel, {as: 'interespoints', foreignKey: 'interesArea_fk'});
+
+    UserModel.hasMany(NotificationModel, {as: 'notifications', foreignKey: 'parent_fk'});
 
 
 };

@@ -59,10 +59,10 @@ body {
   background: rgba(171, 247, 61, 0.7);
 }
 
-
-.content {
+.pusher > .content {
   width: 100%;
-  margin-top: 10px;
+  position:relative;
+  top: 20px;
 }
 
 .card {

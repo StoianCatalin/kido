@@ -11,6 +11,7 @@ export class UserService {
   private registerURL : string = '/api/auth/register';
   private loginURL : string = '/api/auth/login';
   private getMeURL : string = '/api/users/me';
+  private checkReferenceURL : string = '/api/users/ifparentexist';
 
   constructor(private httpClient: HttpClientService, private authService: AuthService) {}
 
@@ -41,8 +42,20 @@ export class UserService {
       });
   }
 
+  public checkIfReferenceExist(reference) {
+    return this.httpClient.get(`${this.checkReferenceURL}/${reference}`)
+      .map(response => response.json());
+  }
+
   private setAuthToken(response) {
     this.authService.setToken(response.token);
+  }
+
+  setUserOnAuth(user) {
+    this.authService.setUser(user);
+  }
+
+  refreshUserInfo() {
     this.getMe().subscribe((response) => {
       this.authService.setUser(response);
     });

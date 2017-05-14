@@ -8,14 +8,16 @@ import {ParentComponent} from "./parent/parent/parent.component";
 import {AuthGuard} from "./commons/guards/auth/auth.guard";
 import {BasedOnTypeGuard} from "./commons/guards/based-on-type/based-on-type.guard";
 import {NotAuthGuard} from "./commons/guards/not-auth/not-auth.guard";
+import {AllowParentGuard} from "./commons/guards/allow-parent/allow-parent.guard";
+import {AllowChildGuard} from "./commons/guards/allow-child/allow-child.guard";
 
 const routes: Routes = [
   { path: '', component: ChooseTypeComponent, canActivate: [NotAuthGuard] },
   { path: 'login', component: AuthLoginComponent, canActivate: [NotAuthGuard] },
   { path: 'register', component: AuthRegisterComponent, canActivate: [NotAuthGuard] },
-  { path: 'home', component: ParentComponent, canActivate: [AuthGuard] },
-  { path: 'child', component: ChildComponent, canActivate: [AuthGuard] },
-  { path: 'parent', component: ParentComponent, canActivate: [AuthGuard] }
+  { path: 'home', component: ParentComponent, canActivate: [AuthGuard, BasedOnTypeGuard] },
+  { path: 'child', component: ChildComponent, canActivate: [AuthGuard, AllowChildGuard ] },
+  { path: 'parent', component: ParentComponent, canActivate: [AuthGuard, AllowParentGuard] }
 ];
 
 @NgModule({
@@ -24,7 +26,9 @@ const routes: Routes = [
   providers: [
     AuthGuard,
     BasedOnTypeGuard,
-    NotAuthGuard
+    NotAuthGuard,
+    AllowParentGuard,
+    AllowChildGuard
   ]
 })
 export class AppRoutingModule { }

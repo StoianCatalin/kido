@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import {User} from "../../models/user";
+import * as io from 'socket.io-client';
 
 @Injectable()
 export class AuthService{
@@ -7,12 +8,19 @@ export class AuthService{
   private user: User;
   private authStatus : boolean = false;
   private token : string = null;
+  private socket : any;
 
   constructor() {
     this.token = sessionStorage.token;
     if (this.token) {
       this.authStatus = true;
-      this.user = sessionStorage.user;
+      if (sessionStorage.user)
+        this.user = JSON.parse(sessionStorage.user);
+      if (!this.socket) {
+        this.socket = io.connect('http://localhost:4343', {
+          'query': 'token=' + this.token
+        });
+      }
     }
   }
 
@@ -21,7 +29,6 @@ export class AuthService{
   }
 
   getUser() {
-    console.log(this.user);
     return this.user;
   }
 
@@ -33,7 +40,12 @@ export class AuthService{
 
   setUser(user: User) {
     this.user = user;
-    sessionStorage.user = this.user;
+    if (this.user)
+      sessionStorage.user = JSON.stringify(this.user);
+  }
+
+  getSocket(){
+    return this.socket;
   }
 
   logout() {

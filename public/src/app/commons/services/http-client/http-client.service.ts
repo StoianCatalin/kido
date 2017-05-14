@@ -21,7 +21,7 @@ export class HttpClientService {
     });
   }
 
-  post(url, data) {
+  post(url, data?) {
     let headers = new Headers();
     this.createAuthorizationHeader(headers);
     return this.http.post(url, data, {

@@ -9,6 +9,9 @@ import { AuthRegisterComponent } from './components/auth-register/auth-register.
 import { RouterModule } from '@angular/router';
 import { CustomFormsModule } from 'ng2-validation'
 import { FormsModule } from '@angular/forms';
+import { SnackbarComponent } from './components/snackbar/snackbar.component';
+import {SnackbarService} from "./services/snackbar/snackbar.service";
+import {LocationService} from "./services/location/location.service";
 
 @NgModule({
   imports: [
@@ -23,13 +26,18 @@ import { FormsModule } from '@angular/forms';
     NavbarComponent,
     ChooseTypeComponent,
     AuthLoginComponent,
-    AuthRegisterComponent
+    AuthRegisterComponent,
+    SnackbarComponent
   ],
   exports: [
     SlidebarComponent,
     FooterComponent,
-    NavbarComponent
+    NavbarComponent,
+    SnackbarComponent
   ],
-  providers: []
+  providers: [
+    SnackbarService,
+    LocationService
+  ]
 })
 export class CommonsModule { }

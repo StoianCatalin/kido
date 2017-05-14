@@ -9,11 +9,13 @@ var middleware = require('./middleware/middleware');
 require('./runDatabase')(false);
 
 var app = express();
+
 var router = express.Router();
 
 var auth = require("./config/auth.js")();
 
 var index = require('./routes/index');
+var io = require('./socket');
 
 app.use(logger('dev'));
 app.use(express.static(path.join(__dirname, 'public/dist')));

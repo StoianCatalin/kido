@@ -1,3 +1,27 @@
-<p>
-  child works!
-</p>
+<div class="card">
+  <agm-map [latitude]="lat" [longitude]="lng" [zoom]="zoom">
+    <agm-marker *ngFor="let marker of markers"
+                [latitude]="marker.latitude"
+                [longitude]="marker.longitude"
+                [title]="marker.nume"
+                [iconUrl]="marker.type == 'child' ? 'assets/images/child.png' : 'assets/images/parent.png'">
+    </agm-marker>
+  </agm-map>
+  <h3 class="ui dividing header">
+    Motion controllers
+  </h3>
+  <div class="content">
+    <button class="ui button icon" (click)="move('left')"><i class="icon arrow left"></i></button>
+    <button class="ui button icon" (click)="move('right')"><i class="icon arrow right"></i></button>
+    <button class="ui button icon" (click)="move('down')"><i class="icon arrow down"></i></button>
+    <button class="ui button icon" (click)="move('up')"><i class="icon arrow up"></i></button>
+  </div>
+  <h3 class="ui dividing header">
+    Alert controllers
+  </h3>
+  <div class="content">
+    <button class="ui button red">Danger</button>
+    <button class="ui button orange">Warning</button>
+    <button class="ui button orange"><i class="icon paw"></i>Animal danger</button>
+  </div>
+</div>
