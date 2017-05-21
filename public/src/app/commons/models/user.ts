@@ -9,4 +9,5 @@ export class User {
   password: string;
   conf_password: string;
   type: string;
+  locations: any;
 }

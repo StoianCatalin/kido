@@ -4,46 +4,22 @@
       <div class="top-header">
         Kids List
       </div>
-      <div class="item">
+      <p>Your reference: <b>{{me.reference}}</b></p>
+      <div class="item" *ngFor="let child of childs">
         <a class="ui tiny image">
           <img src="assets/images/boy.jpg" alt="boy">
         </a>
         <div class="content">
-          <a class="header">Boy Name</a>
+          <a class="header">{{ child.nume + " " + child.prenume}}</a>
           <div class="description">
-            <button class="ui icon blue button">
-              <i class="edit icon"></i>
+            <button class="ui icon blue button" (click)="showHistory(child)">
+              <i class="hourglass full icon"></i>
             </button>
             <button class="ui icon red button">
               <i class="remove icon"></i>
             </button>
-            <button class="ui icon green button">
+            <button class="ui icon green button" (click)="focusOnChild(child)">
               <i class="eye icon"></i>
-            </button>
-            <button class="ui icon blue button">
-              <i class="info icon"></i>
-            </button>
-          </div>
-        </div>
-      </div>
-      <div class="item">
-        <a class="ui tiny image">
-          <img src="assets/images/girl.jpg" alt="boy">
-        </a>
-        <div class="content">
-          <a class="header">Boy Name</a>
-          <div class="description">
-            <button class="ui icon blue button">
-              <i class="edit icon"></i>
-            </button>
-            <button class="ui icon red button">
-              <i class="remove icon"></i>
-            </button>
-            <button class="ui icon green button">
-              <i class="eye icon"></i>
-            </button>
-            <button class="ui icon blue button">
-              <i class="info icon"></i>
             </button>
           </div>
         </div>
@@ -54,9 +30,16 @@
         <agm-marker *ngFor="let marker of markers"
                     [latitude]="marker.latitude"
                     [longitude]="marker.longitude"
-                    [title]="marker.nume"
+                    [title]="marker.name"
                     [iconUrl]="marker.type == 'child' ? 'assets/images/child.png' : 'assets/images/parent.png'">
+          <agm-info-window>
+            <strong>{{marker.name}}</strong>
+          </agm-info-window>
         </agm-marker>
+        <agm-polyline *ngIf="historyPoints.length">
+          <agm-polyline-point *ngFor="let point of historyPoints" [latitude]="point.latitude" [longitude]="point.longitude">
+          </agm-polyline-point>
+        </agm-polyline>
       </agm-map>
     </div>
   </div>

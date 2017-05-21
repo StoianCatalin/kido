@@ -43,8 +43,9 @@ export class ChildComponent implements OnInit {
         this.markers.push(new Marker(parent.id, parent.nume + ' ' + parent.prenume, parent.type, parent.locations[0].latitude, parent.locations[0].longitude));
       });
     this.socket = this.authService.getSocket();
-    this.socket.on('moveOnMap', (message) => {
-
+    this.socket.on('newConnection', (user) => {
+      if (user.id != this.me.id)
+        this.markers.push(new Marker(user.id, user.nume + ' ' + user.prenume, user.type, user.locations[0].latitude, user.locations[0].longitude));
     });
   }
 

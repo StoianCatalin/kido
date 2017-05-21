@@ -1,7 +1,5 @@
 import {Injectable, OnInit} from '@angular/core';
 import {HttpClientService} from "../../commons/services/http-client/http-client.service";
-import * as io from 'socket.io-client';
-import {LocationService} from "../../commons/services/location/location.service";
 
 @Injectable()
 export class ParentService{

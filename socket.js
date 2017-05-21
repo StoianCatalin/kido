@@ -26,6 +26,25 @@ io.on('connection', function(socket) {
         if (user) {
             if (user.type == 'parent'){
                 socket.join('room' + user.id);
+                var currentRoom = Object.keys( io.sockets.adapter.sids[socket.id]);
+                LocationPointModel.findAll({
+                    where: {
+                        user_fk: user.id
+                    },
+                    order: 'createdAt DESC'
+                }).then(function(locations) {
+                    delete user.password;
+                    delete user.last_token;
+                    user.locations = locations;
+                    console.log(user);
+                    socket.in(currentRoom[1]).emit('newConnection', {
+                        id: user.id,
+                        nume: user.nume,
+                        prenume: user.prenume,
+                        locations: locations,
+                        type: user.type
+                    });
+                });
             }
             else {
                 UserModel.find({
@@ -34,6 +53,25 @@ io.on('connection', function(socket) {
                     }
                 }).then(function(parentUser) {
                     socket.join('room'+parentUser.id);
+                    var currentRoom = Object.keys( io.sockets.adapter.sids[socket.id]);
+                    LocationPointModel.findAll({
+                        where: {
+                            user_fk: user.id
+                        },
+                        order: 'createdAt DESC'
+                    }).then(function(locations) {
+                        delete user.password;
+                        delete user.last_token;
+                        user.locations = locations;
+                        console.log(user);
+                        socket.in(currentRoom[1]).emit('newConnection', {
+                            id: user.id,
+                            nume: user.nume,
+                            prenume: user.prenume,
+                            locations: locations,
+                            type: user.type
+                        });
+                    });
                 });
             }
         }
@@ -46,7 +84,6 @@ io.on('connection', function(socket) {
             latitude: coordinates.latitude
         }).then(function(newPoint) {
             var currentRoom = Object.keys( io.sockets.adapter.sids[socket.id]);
-            console.log(currentRoom[1]);
             socket.in(currentRoom[1]).emit('moveOnMap', {id: socket.decoded_token.id, latitude: newPoint.latitude, longitude: newPoint.longitude});
         });
     });

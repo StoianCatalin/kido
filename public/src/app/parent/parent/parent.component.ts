@@ -18,6 +18,8 @@ export class ParentComponent implements OnInit {
   markers: Marker[] = [];
   me: User;
   socket : any;
+  childs: User[];
+  historyPoints : any[] = [];
 
   constructor(
     private parentService: ParentService,
@@ -35,6 +37,7 @@ export class ParentComponent implements OnInit {
       });
     this.parentService.getMyChilds()
       .subscribe((childs) => {
+        this.childs = childs;
         childs.forEach((child) => {
           this.markers.push(new Marker(child.id, child.nume + ' ' + child.prenume, child.type, child.locations[0].latitude, child.locations[0].longitude));
         });
@@ -47,8 +50,37 @@ export class ParentComponent implements OnInit {
       });
       marker.longitude = coordinates.longitude;
       marker.latitude = coordinates.latitude;
+      let user = this.childs.find((child) => {
+        return child.id == coordinates.id;
+      });
+      user.locations.unshift(coordinates);
+    });
+    this.socket.on('newConnection', (user) => {
+      if (user.id != this.me.id) {
+        let markerExist = this.markers.find((item) => {
+          return item.id == user.id;
+        });
+        if (!markerExist) {
+          this.childs.push(user); 
+          this.markers.push(new Marker(user.id, user.nume + ' ' + user.prenume, user.type, user.locations[0].latitude, user.locations[0].longitude));
+        }
+      }
     });
   }
 
+  focusOnChild(child) {
+    let locations = this.markers.find((item) => {
+      return item.id == child.id;
+    });
+    this.lat = locations.latitude;
+    this.lng = locations.longitude;
+  }
+
+  showHistory(child) {
+    if (this.historyPoints == child.locations)
+      this.historyPoints = [];
+    else
+      this.historyPoints = child.locations;
+  }
 
 }

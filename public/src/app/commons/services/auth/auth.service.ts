@@ -20,6 +20,7 @@ export class AuthService{
         this.socket = io.connect('http://localhost:4343', {
           'query': 'token=' + this.token
         });
+        console.log('connected');
       }
     }
   }
@@ -45,6 +46,10 @@ export class AuthService{
   }
 
   getSocket(){
+    if (!this.socket)
+      this.socket = io.connect('http://localhost:4343', {
+        'query': 'token=' + this.token
+      });
     return this.socket;
   }
 
@@ -54,6 +59,8 @@ export class AuthService{
     sessionStorage.removeItem('token');
     sessionStorage.removeItem('user');
     this.authStatus = false;
+    this.socket.disconnect();
+    this.socket = '';
 }
 
   isAuthentificated() {
