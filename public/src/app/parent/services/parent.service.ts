@@ -19,8 +19,7 @@ export class ParentService{
   }
 
   deleteChild(child) {
-    return this.http.delete(this.deleteChildURL, {id: child.id})
-      .map(response => response.json());
+    return this.http.delete(this.deleteChildURL, {id: child.id});
   }
 
 }

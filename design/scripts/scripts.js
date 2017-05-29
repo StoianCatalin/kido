@@ -1,5 +1,5 @@
 /**
- * Created by Andreea on 3/11/2017.
+ * Created by Catalin on 3/11/2017.
  */
 //Login page
 $('.open-menu').click(function() {

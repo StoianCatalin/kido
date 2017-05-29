@@ -79,6 +79,11 @@ module.exports = {
         }
         else
             res.status(409).json({message: 'You are a child!'});
+    }],
+
+    delete_delete: [auth.authenticate(), function(req, res) {
+        res.sendStatus(200);
+
     }]
 
 };

@@ -87,13 +87,13 @@ export class ParentComponent implements OnInit {
     this.parentService.deleteChild(child)
       .subscribe(response => {
         let index = this.markers.findIndex((item) => {
-          return item.id = child.id;
+          return item.id == child.id;
         });
-        this.markers.slice(index, 1);
+        this.markers.splice(index, 1);
         index = this.childs.findIndex((item) => {
-          return item.id = child.id;
+          return item.id == child.id;
         });
-        this.childs.slice(index, 1);
+        this.childs.splice(index, 1);
       });
   }
 

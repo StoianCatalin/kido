@@ -40,7 +40,7 @@ export class HttpClientService {
   delete(url, data) {
     let headers = new Headers();
     this.createAuthorizationHeader(headers);
-    return this.http.post(url, {
+    return this.http.delete(url, {
       headers: headers,
       body: data
     });
