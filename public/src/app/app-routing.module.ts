@@ -10,6 +10,7 @@ import {BasedOnTypeGuard} from "./commons/guards/based-on-type/based-on-type.gua
 import {NotAuthGuard} from "./commons/guards/not-auth/not-auth.guard";
 import {AllowParentGuard} from "./commons/guards/allow-parent/allow-parent.guard";
 import {AllowChildGuard} from "./commons/guards/allow-child/allow-child.guard";
+import {AreasComponent} from "./parent/areas/areas.component";
 
 const routes: Routes = [
   { path: '', component: ChooseTypeComponent, canActivate: [NotAuthGuard] },
@@ -17,7 +18,8 @@ const routes: Routes = [
   { path: 'register', component: AuthRegisterComponent, canActivate: [NotAuthGuard] },
   { path: 'home', component: ParentComponent, canActivate: [AuthGuard, BasedOnTypeGuard] },
   { path: 'child', component: ChildComponent, canActivate: [AuthGuard, AllowChildGuard ] },
-  { path: 'parent', component: ParentComponent, canActivate: [AuthGuard, AllowParentGuard] }
+  { path: 'parent', component: ParentComponent, canActivate: [AuthGuard, AllowParentGuard] },
+  { path: 'parent/areas', component: AreasComponent, canActivate: [AuthGuard, AllowParentGuard] }
 ];
 
 @NgModule({

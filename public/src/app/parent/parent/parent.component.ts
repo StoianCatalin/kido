@@ -61,7 +61,7 @@ export class ParentComponent implements OnInit {
           return item.id == user.id;
         });
         if (!markerExist) {
-          this.childs.push(user); 
+          this.childs.push(user);
           this.markers.push(new Marker(user.id, user.nume + ' ' + user.prenume, user.type, user.locations[0].latitude, user.locations[0].longitude));
         }
       }
@@ -81,6 +81,20 @@ export class ParentComponent implements OnInit {
       this.historyPoints = [];
     else
       this.historyPoints = child.locations;
+  }
+
+  deleteUser(child) {
+    this.parentService.deleteChild(child)
+      .subscribe(response => {
+        let index = this.markers.findIndex((item) => {
+          return item.id = child.id;
+        });
+        this.markers.slice(index, 1);
+        index = this.childs.findIndex((item) => {
+          return item.id = child.id;
+        });
+        this.childs.slice(index, 1);
+      });
   }
 
 }

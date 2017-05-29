@@ -4,6 +4,12 @@
       <div class="top-header">
         Kids List
       </div>
+      <div class="ui blue buttons">
+        <button class="ui button" [routerLink]="['/parent/areas']">
+          <i class="icon world"></i>
+          Interes Areas
+        </button>
+      </div>
       <p>Your reference: <b>{{me.reference}}</b></p>
       <div class="item" *ngFor="let child of childs">
         <a class="ui tiny image">
@@ -15,7 +21,7 @@
             <button class="ui icon blue button" (click)="showHistory(child)">
               <i class="hourglass full icon"></i>
             </button>
-            <button class="ui icon red button">
+            <button class="ui icon red button" (click)="deleteUser(child)">
               <i class="remove icon"></i>
             </button>
             <button class="ui icon green button" (click)="focusOnChild(child)">
@@ -26,7 +32,7 @@
       </div>
     </div>
     <div class="twelve wide column">
-      <agm-map [latitude]="lat" [longitude]="lng" [zoom]="zoom">
+      <agm-map [latitude]="lat" [longitude]="lng" [zoom]="zoom" [streetViewControl]="false">
         <agm-marker *ngFor="let marker of markers"
                     [latitude]="marker.latitude"
                     [longitude]="marker.longitude"

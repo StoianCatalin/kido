@@ -5,6 +5,7 @@ import { RouterModule } from '@angular/router';
 import {ParentService} from "./services/parent.service";
 
 import { AgmCoreModule } from '@agm/core';
+import { AreasComponent } from './areas/areas.component';
 
 @NgModule({
   imports: [
@@ -14,7 +15,7 @@ import { AgmCoreModule } from '@agm/core';
       apiKey: 'AIzaSyAxMNUGrlup-y1XGWiYizEGsSGF9_RXEt0'
     })
   ],
-  declarations: [ParentComponent],
+  declarations: [ParentComponent, AreasComponent],
   exports: [ParentComponent],
   providers: [ParentService]
 })

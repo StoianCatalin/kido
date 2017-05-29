@@ -1,0 +1,28 @@
+<div class="parent-content">
+  <div class="ui stackable grid">
+    <div class="left-panel four wide column">
+      <div class="top-header">
+        Areas List
+      </div>
+      <div class="ui blue buttons">
+        <button class="ui button" [routerLink]="['/parent']">
+          <i class="child icon"></i>
+          Kids List
+        </button>
+      </div>
+    </div>
+    <div class="twelve wide column">
+      <agm-map #map [latitude]="lat" [longitude]="lng" [zoom]="zoom" [streetViewControl]="false">
+        <agm-marker *ngFor="let marker of markers"
+                    [latitude]="marker.latitude"
+                    [longitude]="marker.longitude"
+                    [title]="marker.name"
+                    [iconUrl]="marker.type == 'child' ? 'assets/images/child.png' : 'assets/images/parent.png'">
+          <agm-info-window>
+            <strong>{{marker.name}}</strong>
+          </agm-info-window>
+        </agm-marker>
+      </agm-map>
+    </div>
+  </div>
+</div>
