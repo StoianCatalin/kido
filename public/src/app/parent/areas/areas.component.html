@@ -10,9 +10,49 @@
           Kids List
         </button>
       </div>
+      <h4 class="ui header">Actions</h4>
+      <div>PolyLine Area</div>
+      <div class="ui blue buttons">
+        <button class="ui icon button tooltiped" data-content="Add/Edit area" data-inverted data-variation="tiny" (click)="togglePolyMode()" [disabled]="createModePoly">
+          <i class="add icon"></i>
+        </button>
+        <button class="ui icon button tooltiped" data-content="Close" data-inverted data-variation="tiny" (click)="togglePolyMode()" [disabled]="!createModePoly">
+          <i class="remove icon"></i>
+        </button>
+        <button class="ui icon button tooltiped" data-content="Save" data-inverted data-variation="tiny" [disabled]="!createModePoly" (click)="savePolygon()">
+          <i class="save icon"></i>
+        </button>
+      </div><br />
+      <div>Circle Area</div>
+      <div class="ui blue buttons">
+        <button class="ui icon button tooltiped" data-content="Add/Edit circle" data-inverted data-variation="tiny" (click)="toggleCircleMode()" [disabled]="createModeCircle">
+          <i class="add icon"></i>
+        </button>
+        <button class="ui icon button tooltiped" data-content="Close" data-inverted data-variation="tiny" (click)="toggleCircleMode()" [disabled]="!createModeCircle">
+          <i class="remove icon"></i>
+        </button>
+        <button class="ui icon button tooltiped" data-content="Save" data-inverted data-variation="tiny" [disabled]="!createModeCircle" (click)="saveCircle()">
+          <i class="save icon"></i>
+        </button>
+      </div>
+      <h4 class="ui header">Areas</h4>
+      <div class="ui divider"></div>
+      <div class="area" *ngFor="let area of areas">
+        <span>Area {{area.id}}</span>
+        <button class="ui icon red button" (click)="removeArea(area.id)">
+          <i class="icon remove"></i>
+        </button>
+        <div class="clearfloat"></div>
+      </div>
+      <div class="ui divider"></div>
     </div>
     <div class="twelve wide column">
-      <agm-map #map [latitude]="lat" [longitude]="lng" [zoom]="zoom" [streetViewControl]="false">
+      <agm-map #map
+               [latitude]="lat"
+               [longitude]="lng"
+               [zoom]="zoom"
+               [streetViewControl]="false"
+               (mapClick)="clickManager($event)">
         <agm-marker *ngFor="let marker of markers"
                     [latitude]="marker.latitude"
                     [longitude]="marker.longitude"
@@ -22,6 +62,20 @@
             <strong>{{marker.name}}</strong>
           </agm-info-window>
         </agm-marker>
+        <agm-polygon [editable]="createModePoly" *ngFor="let paths of polygons" [paths]="paths"></agm-polygon>
+        <agm-circle [editable]="createModeCircle" *ngFor="let circle of circles" [longitude]="circle.longitude" [latitude]="circle.latitude" [radius]="circle.radius"></agm-circle>
+        <agm-polyline [editable]="true">
+          <agm-polyline-point *ngFor="let point of testPoints" [latitude]="point.lat" [longitude]="point.lng"></agm-polyline-point>
+        </agm-polyline>
+        <agm-circle
+          *ngIf="testCircle.latitude && testCircle.longitude"
+          [editable]="createModeCircle"
+          [latitude]="testCircle.latitude"
+          [longitude]="testCircle.longitude"
+          [radius]="testCircle.radius"
+          (radiusChange)="updateTestCircle($event)"
+          (centerChange)="updateCenter($event)"
+        ></agm-circle>
       </agm-map>
     </div>
   </div>

@@ -42,6 +42,8 @@
             <strong>{{marker.name}}</strong>
           </agm-info-window>
         </agm-marker>
+        <agm-polygon *ngFor="let paths of polygons" [paths]="paths"></agm-polygon>
+        <agm-circle *ngFor="let circle of circles" [longitude]="circle.longitude" [latitude]="circle.latitude" [radius]="circle.radius"></agm-circle>
         <agm-polyline *ngIf="historyPoints.length">
           <agm-polyline-point *ngFor="let point of historyPoints" [latitude]="point.latitude" [longitude]="point.longitude">
           </agm-polyline-point>

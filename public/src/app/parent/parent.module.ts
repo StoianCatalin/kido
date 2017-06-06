@@ -6,6 +6,7 @@ import {ParentService} from "./services/parent.service";
 
 import { AgmCoreModule } from '@agm/core';
 import { AreasComponent } from './areas/areas.component';
+import {AreaService} from "./services/area.service";
 
 @NgModule({
   imports: [
@@ -17,6 +18,6 @@ import { AreasComponent } from './areas/areas.component';
   ],
   declarations: [ParentComponent, AreasComponent],
   exports: [ParentComponent],
-  providers: [ParentService]
+  providers: [ParentService, AreaService]
 })
 export class ParentModule { }

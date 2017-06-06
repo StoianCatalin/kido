@@ -4,6 +4,8 @@ import {LocationService} from "../../commons/services/location/location.service"
 import {Marker} from "../../commons/models/marker";
 import {AuthService} from "../../commons/services/auth/auth.service";
 import {User} from "../../commons/models/user";
+import {LatLngLiteral} from "@agm/core";
+import {AreaService} from "../services/area.service";
 
 @Component({
   selector: 'km-parent',
@@ -20,14 +22,25 @@ export class ParentComponent implements OnInit {
   socket : any;
   childs: User[];
   historyPoints : any[] = [];
+  polygons : Array<Array<LatLngLiteral>> = [];
+  circles = [];
 
   constructor(
     private parentService: ParentService,
     private locationService: LocationService,
-    private authService: AuthService
+    private authService: AuthService,
+    private areaService: AreaService
   ) { }
 
   ngOnInit() {
+    this.initMeAndUsers();
+    this.socket = this.authService.getSocket();
+    this.initNewConnection();
+    this.initMoveOnMap();
+    this.initAreas();
+  }
+
+  initMeAndUsers() {
     this.me = this.authService.getUser();
     this.locationService.myCurrentLocation()
       .subscribe((point) => {
@@ -42,19 +55,9 @@ export class ParentComponent implements OnInit {
           this.markers.push(new Marker(child.id, child.nume + ' ' + child.prenume, child.type, child.locations[0].latitude, child.locations[0].longitude));
         });
       });
-    this.socket = this.authService.getSocket();
+  }
 
-    this.socket.on('moveOnMap', (coordinates) => {
-      let marker = this.markers.find((mark) => {
-        return mark.id == coordinates.id;
-      });
-      marker.longitude = coordinates.longitude;
-      marker.latitude = coordinates.latitude;
-      let user = this.childs.find((child) => {
-        return child.id == coordinates.id;
-      });
-      user.locations.unshift(coordinates);
-    });
+  initNewConnection() {
     this.socket.on('newConnection', (user) => {
       if (user.id != this.me.id) {
         let markerExist = this.markers.find((item) => {
@@ -66,6 +69,45 @@ export class ParentComponent implements OnInit {
         }
       }
     });
+  }
+
+  initMoveOnMap() {
+    this.socket.on('moveOnMap', (coordinates) => {
+      let marker = this.markers.find((mark) => {
+        return mark.id == coordinates.id;
+      });
+      marker.longitude = coordinates.longitude;
+      marker.latitude = coordinates.latitude;
+      let user = this.childs.find((child) => {
+        return child.id == coordinates.id;
+      });
+      user.locations.unshift(coordinates);
+    });
+  }
+
+  initAreas() {
+    this.areaService.getPolygonAreas()
+      .subscribe((areas) => {
+        areas.forEach((element) => {
+          let polygon = [];
+          if (element.interespoints[0].radius) {
+            this.circles.push({
+              latitude: element.interespoints[0].latitude,
+              longitude: element.interespoints[0].longitude,
+              radius: element.interespoints[0].radius
+            });
+          }
+          else {
+            element.interespoints.forEach(point => {
+              polygon.push({
+                lat: point.latitude,
+                lng: point.longitude
+              });
+            });
+            this.polygons.push(polygon);
+          }
+        });
+      });
   }
 
   focusOnChild(child) {

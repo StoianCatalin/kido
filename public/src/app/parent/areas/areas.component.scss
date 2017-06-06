@@ -23,3 +23,14 @@ agm-map {
   text-align:center;
   min-height: 150px;
 }
+.area button {
+  display: inline-block;
+  float:right;
+}
+.clearfloat {
+  clear:both;
+}
+.area span {
+  position: relative;
+  top: 5px;
+}

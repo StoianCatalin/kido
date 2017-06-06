@@ -11,10 +11,10 @@ var ObjectModel = database.import('./models/ObjectModel');
 module.exports = function (isForced) {
 
     UserModel.sync({force: isForced});
-    InteresAreaModel.sync({force: isForced});
+    NotificationModel.sync({force: isForced});
     LocationPointModel.sync({force: isForced});
     InteresPointModel.sync({force: isForced});
-    NotificationModel.sync({force: isForced});
+    InteresAreaModel.sync({force: isForced});
     ObjectModel.sync({force: isForced});
 
 
@@ -26,9 +26,9 @@ module.exports = function (isForced) {
     UserModel.hasMany(LocationPointModel, {as: 'locations', foreignKey: 'user_fk'});
     LocationPointModel.belongsTo(UserModel, {foreignKey: 'user_fk'});
 
-    InteresAreaModel.hasMany(InteresPointModel, {as: 'interespoints', foreignKey: 'interesArea_fk'});
+    InteresAreaModel.hasMany(InteresPointModel, {as: 'interespoints', foreignKey: 'interesarea_fk'});
 
-    UserModel.hasMany(NotificationModel, {as: 'notifications', foreignKey: 'parent_fk'});
+    //UserModel.hasMany(NotificationModel, {as: 'notifications', foreignKey: 'parent_fk'});
 
 
 };

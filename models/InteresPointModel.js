@@ -24,6 +24,10 @@ module.exports = function(sequelize, DataTypes) {
                 type: DataTypes.DOUBLE,
                 field: 'latitude',
                 notNull: true
+            },
+            radius: {
+                type: DataTypes.DOUBLE,
+                field: 'radius'
             }
         } 
     );
