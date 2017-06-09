@@ -2,6 +2,7 @@ var express = require('express');
 var database = require('../config/database');
 var UserModel = database.import("../models/UserModel");
 var LocationPointModel = database.import("../models/LocationPointModel");
+var NotificationModel = database.import("../models/NotificationModel");
 var auth = require('../config/auth')();
 var io = require('../socket');
 
@@ -106,15 +107,41 @@ module.exports = {
 	@how Pe baza JWT, pentru utilizatorul conectat (parinte), sterge unul din copiii sai
 	*/
     delete_delete: [auth.authenticate(), function(req, res) {
-        UserModel.destroy({
-			where: {
-				id : req.body.id,
-				type : 'child',
-				parentId : req.user.parentId
-			}
-		}).then(function(){
-			res.sendStatus(200);
-		});
+        UserModel.find({
+            where: {
+                id: req.body.id
+            }
+        }).then(function(user) {
+            if (req.user.id == user.parentId) {
+                LocationPointModel.destroy({
+                        where: {
+                            user_fk: req.body.id
+                        }
+                    }
+                ).then(function() {
+                    NotificationModel.destroy({
+                        where: {
+                            child_fk: user.id
+                        }
+                    })
+                }).then(function() {
+                    UserModel.destroy({
+                        where: {
+                            id : req.body.id,
+                            parentId : req.user.id
+                        }
+                    }).then(function(){
+                        res.sendStatus(200);
+                    }, function(err) {
+                        console.log(err);
+                        res.sendStatus(500);
+                    });
+                });
+            }
+            else {
+                res.sendStatus(401);
+            }
+        });
     }]
 
 };
