@@ -6,6 +6,10 @@ var jwt = require("jwt-simple");
 var cfg = require("../config/passport.config.js");
 var auth = require("../config/auth")();
 
+/**
+@brief creeaza un string random
+@how stringul se creeaza pe baza unui parametru random care reprezinta lungimea stringului
+*/
 var randomString = function(number) {
     var text = "";
     var possible = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
@@ -20,6 +24,11 @@ module.exports = {
         res.sendStatus(200);
     },
 
+	/**
+	@brief creeaza un utilizator nou (copil / parinte)
+	@how pe baza parametrilor primiti decide daca sa creeze copil sau parinte, il insereaza in BD, creeaza un token privat pentru el si 
+		il trimite inapoi utilizatorului pentru a-l folosi in scopul actiunilor urmatoare
+	*/
     post_register : function(req, res) {
         if (req.body.nume && req.body.prenume && req.body.email && req.body.password)
             UserModel.create(req.body).then(function(user) {
@@ -84,6 +93,11 @@ module.exports = {
         }
     },
 
+	/**
+	@brief Verifica daca credentialele sunt valide si autentifica utilizatorul
+	@how Primeste email si password, verifica daca exista in BD, iar daca exista creeaza un token ce 
+			urmeaza a fi folosit in actiunile urmatoare
+	*/
     post_login : function(req, res) {
         var email = req.body.email;
         var password = req.body.password;
@@ -121,6 +135,10 @@ module.exports = {
         }
     },
 
+	/**
+	@brief Invalideaza tokenul
+	@how Sterge token_key din baza de date
+	*/
     post_logout : [ auth.authenticate(), function(req, res) {
         var me = req.user;
         UserModel.update(

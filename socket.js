@@ -18,6 +18,10 @@ io.use(socketioJwt.authorize({
 server.listen(4343);
 
 io.on('connection', function(socket) {
+	/**
+	@brief Odata ce un socket se autentifica, ia datele utilizatorului pe baza JWT
+	@how Pe baza tokenului se aduna datele despre utilizatorul curent si le trimite catre client
+	*/
     UserModel.find({
         where: {
             id: socket.decoded_token.id,
@@ -37,7 +41,6 @@ io.on('connection', function(socket) {
                     delete user.password;
                     delete user.last_token;
                     user.locations = locations;
-                    console.log(user);
                     socket.in(currentRoom[1]).emit('newConnection', {
                         id: user.id,
                         nume: user.nume,
@@ -78,6 +81,10 @@ io.on('connection', function(socket) {
         }
     });
 
+	/**
+	@brief Notifica parintele ca copilul s-a miscat
+	@how Trimite catre parinte noile coordonate ale copilului
+	*/
     socket.on('moveOnMap', function(coordinates) {
         LocationPointModel.create({
             user_fk: socket.decoded_token.id,
@@ -88,14 +95,29 @@ io.on('connection', function(socket) {
             socket.in(currentRoom[1]).emit('moveOnMap', {id: socket.decoded_token.id, latitude: newPoint.latitude, longitude: newPoint.longitude});
         });
     });
+	
+	/**
+	@brief In momentul crearii unei noi zone notifica copiii despre noua zona
+	@how Emite in camera informatiile noi despre zona de interes
+	*/
     socket.on('pushArea', function(area) {
         var currentRoom = Object.keys( io.sockets.adapter.sids[socket.id]);
         socket.in(currentRoom[1]).emit('pushArea', area);
     });
+	
+	/**
+	@brief Informeaaza copiii ca s-a sters o area
+	@how Emite in camera informatiile despre stergerea unei zone
+	*/
     socket.on('deleteArea', function(area) {
         var currentRoom = Object.keys( io.sockets.adapter.sids[socket.id]);
         socket.in(currentRoom[1]).emit('deleteArea', area);
     });
+	
+	/**
+	@brief Creeaza o noua notificare in baza de date si o trimite parintelui
+	@how Emite in camera informatii despre notificare, doar parintele primind informatiile (copiii nu asculta pe acest event)
+	*/
     socket.on('pushNotification', function(notification) {
         UserModel.find({
             where: {

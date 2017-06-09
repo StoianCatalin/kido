@@ -9,7 +9,13 @@ var io = require('../socket');
 
 module.exports = {
 
-    post_create_polygon : [auth.authenticate(), function(req, res) {
+    /**
+	@brief Aceasta metoda este utilizata pentru crearea unui poligon, 
+			ca zona de siguranta pentru utilizatorii child
+	@how Se utilizeaza <points>, in care sunt stocate toate punctele care urmeaza a forma
+			poligonul si le adauga in baza de date
+	*/
+	post_create_polygon : [auth.authenticate(), function(req, res) {
         var points = req.body;
         InteresAreaModel.create({parent_fk: req.user.id, name: Math.floor(Date.now() / 1000)})
             .then(function(interesArea) {
@@ -25,7 +31,15 @@ module.exports = {
                 res.json(interesArea);
             });
     }],
-    post_create_circle : [auth.authenticate(), function(req, res) {
+    
+    /**
+	@brief Aceasta metoda este utilizata pentru crearea unui cerc, 
+			ca zona de siguranta pentru utilizatorii child
+	@how Se utilizeaza <points>, in care sunt stocate toate punctele care urmeaza a forma
+			poligonul si le adauga in baza de date
+	
+	*/
+	post_create_circle : [auth.authenticate(), function(req, res) {
         var point = req.body;
         InteresAreaModel.create({parent_fk: req.user.id, name: Math.floor(Date.now() / 1000)})
             .then(function(interesArea) {
@@ -40,6 +54,11 @@ module.exports = {
                 res.json(interesArea);
             });
     }],
+	
+	/**
+	@brief Returneaza toate zonele de interes pentru utilizatorul autentificat
+	@how Se foloseste JWT pentru a lua utiizatorul autentificat, interogheaza baza de date si returneaza toate zonele
+	*/
     get_polygon : [auth.authenticate(), function(req, res) {
         InteresAreaModel.findAll({
             where: {
@@ -53,6 +72,11 @@ module.exports = {
             res.json(interesAreas);
         });
     }],
+	
+	/**
+	@brief Returneaza zonele de interes a parintelui utilizatorului conectat (copil)
+	@how how Se foloseste JWT pentru a lua utiizatorul autentificat, interogheaza baza de date si returneaza toate zonele
+	*/
     get_polygon_parent : [auth.authenticate(), function(req, res) {
         InteresAreaModel.findAll({
             where: {
@@ -66,6 +90,12 @@ module.exports = {
             res.json(interesAreas);
         });
     }],
+	
+	
+	/**
+	@brief Sterge o zona de interes pentru utilizatorul autentificat
+	@how how Se foloseste JWT pentru a lua utiizatorul autentificat si sterge din baza de date toate punctele + interesArea-ul respeciv
+	*/
     delete_polygon : [auth.authenticate(), function(req, res) {
         InteresPointModel.destroy({
             where: {
