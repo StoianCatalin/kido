@@ -61,3 +61,15 @@ npm install -g @angular/cli
 ```
 ng build
 ```
+
+# Pasul 5
+
+* In folderul principal al proiectului deschideti un command prompt / terminal 
+* Executati comanda 
+```
+npm start
+```
+
+# Pasul 6
+
+BUCURATI-VA DE KIMO!
