@@ -6,6 +6,7 @@ export class AreaService {
 
   createPolygonAreaURL : string = '/api/areas/create/polygon';
   getPolygonAreasURL : string = '/api/areas/polygon';
+  getMyParentPolygonAreasURL : string = '/api/areas/polygon/parent';
   deleteAreaURL : string = '/api/areas/polygon';
   createCircleAreaURL : string = '/api/areas/create/circle';
 
@@ -18,6 +19,11 @@ export class AreaService {
 
   getPolygonAreas() {
     return this.http.get(this.getPolygonAreasURL)
+      .map(response => response.json());
+  }
+
+  getMyParentPolygonAreas() {
+    return this.http.get(this.getMyParentPolygonAreasURL)
       .map(response => response.json());
   }
 

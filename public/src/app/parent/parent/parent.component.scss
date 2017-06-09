@@ -26,3 +26,12 @@ agm-map {
 .ui.buttons {
   margin-bottom: 15px;
 }
+.notification {
+  position: absolute;
+  top: 20px;
+  margin: auto;
+  z-index: 1000;
+  max-width: 500px;
+  left:0;
+  right: 0;
+}

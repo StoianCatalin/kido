@@ -1,4 +1,4 @@
-import {Component, OnInit, ViewChild} from '@angular/core';
+import {Component, OnInit, Input} from '@angular/core';
 import {ParentService} from "../services/parent.service";
 import {LocationService} from "../../commons/services/location/location.service";
 import {Marker} from "../../commons/models/marker";
@@ -24,6 +24,8 @@ export class ParentComponent implements OnInit {
   historyPoints : any[] = [];
   polygons : Array<Array<LatLngLiteral>> = [];
   circles = [];
+  notification = null;
+  timeOutNotification = null;
 
   constructor(
     private parentService: ParentService,
@@ -38,6 +40,7 @@ export class ParentComponent implements OnInit {
     this.initNewConnection();
     this.initMoveOnMap();
     this.initAreas();
+    this.listenNotifications();
   }
 
   initMeAndUsers() {
@@ -86,6 +89,8 @@ export class ParentComponent implements OnInit {
   }
 
   initAreas() {
+    this.polygons = [];
+    this.circles = [];
     this.areaService.getPolygonAreas()
       .subscribe((areas) => {
         areas.forEach((element) => {
@@ -108,6 +113,21 @@ export class ParentComponent implements OnInit {
           }
         });
       });
+  }
+
+  listenNotifications() {
+    this.socket.on('pushNotification', (notification) => {
+      this.notification = notification;
+      let child = this.childs.find((item) => {
+        return item.id == notification.id;
+      });
+      this.focusOnChild(child);
+      this.notification.name = child.nume + " " + child.prenume;
+      clearTimeout(this.timeOutNotification);
+      this.timeOutNotification = setTimeout(() => {
+        this.notification = null;
+      }, 5000);
+    });
   }
 
   focusOnChild(child) {

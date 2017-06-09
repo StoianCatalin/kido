@@ -3,6 +3,7 @@ var app = express();
 var database = require('./config/database');
 var UserModel = database.import("./models/UserModel");
 var LocationPointModel = database.import('./models/LocationPointModel');
+var NotificationModel = database.import('./models/NotificationModel');
 
 var server = require('http').createServer(app);
 var io = require('socket.io')(server);
@@ -85,6 +86,33 @@ io.on('connection', function(socket) {
         }).then(function(newPoint) {
             var currentRoom = Object.keys( io.sockets.adapter.sids[socket.id]);
             socket.in(currentRoom[1]).emit('moveOnMap', {id: socket.decoded_token.id, latitude: newPoint.latitude, longitude: newPoint.longitude});
+        });
+    });
+    socket.on('pushArea', function(area) {
+        var currentRoom = Object.keys( io.sockets.adapter.sids[socket.id]);
+        socket.in(currentRoom[1]).emit('pushArea', area);
+    });
+    socket.on('deleteArea', function(area) {
+        var currentRoom = Object.keys( io.sockets.adapter.sids[socket.id]);
+        socket.in(currentRoom[1]).emit('deleteArea', area);
+    });
+    socket.on('pushNotification', function(notification) {
+        UserModel.find({
+            where: {
+                id: socket.decoded_token.id,
+                last_token: socket.decoded_token.token
+            }
+        }).then(function(user) {
+            NotificationModel.create({
+                prent_fk: user.parentId,
+                child_fk: user.id,
+                color: notification.color,
+                icon: notification.icon,
+                message: notification.message
+            }).then(function() {
+                var currentRoom = Object.keys( io.sockets.adapter.sids[socket.id]);
+                socket.in(currentRoom[1]).emit('pushNotification', notification);
+            });
         });
     });
 });

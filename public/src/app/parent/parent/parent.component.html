@@ -1,3 +1,12 @@
+<div *ngIf="notification" class="ui icon message notification {{notification.color}}">
+  <i *ngIf="notification.icon" class="{{notification.icon}} icon"></i>
+  <div class="content">
+    <div class="header">
+      {{ notification.name }}
+    </div>
+    <p>{{notification.name + " " + notification.message}}</p>
+  </div>
+</div>
 <div class="parent-content">
   <div class="ui stackable grid">
     <div class="left-panel four wide column">

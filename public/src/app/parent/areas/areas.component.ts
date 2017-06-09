@@ -21,6 +21,7 @@ export class AreasComponent implements OnInit {
   lng: number;
   zoom: number = 16;
   me: User;
+  socket : any;
   markers: Marker[] = [];
   createModePoly : boolean = false;
   createModeCircle : boolean = false;
@@ -41,6 +42,7 @@ export class AreasComponent implements OnInit {
   ngOnInit() {
     $('.tooltiped').popup();
     this.me = this.authService.getUser();
+    this.socket = this.authService.getSocket();
     this.initCurrentLocation();
     this.initAreas();
   }
@@ -89,6 +91,7 @@ export class AreasComponent implements OnInit {
         let index = this.areas.findIndex((item) => {
           return item.id == id;
         });
+        this.socket.emit('deleteArea', {index: index});
         this.areas.splice(index, 1);
         this.initAreas();
       });
@@ -143,6 +146,10 @@ export class AreasComponent implements OnInit {
       this.polygons.push(this.testPoints);
       this.areaService.createPolygonArea(this.testPoints)
         .subscribe((interesArea) => {
+          this.socket.emit("pushArea", {
+            type: 'polygon',
+            points: this.testPoints
+          });
           this.testPoints = [];
           this.areas.push({id: interesArea.id, name: interesArea.name});
         });
@@ -155,8 +162,13 @@ export class AreasComponent implements OnInit {
     this.circles.push(this.testCircle);
     this.areaService.createCircleArea(this.testCircle)
       .subscribe((circle) => {
+        this.areas.push({id: circle.id, name: circle.name});
         this.createModeCircle = false;
         $('.tooltiped').popup('hide');
+        this.socket.emit("pushArea", {
+          type: 'circle',
+          points: this.testCircle
+        });
         this.testCircle = {
           longitude: null,
           latitude: null,

@@ -53,6 +53,19 @@ module.exports = {
             res.json(interesAreas);
         });
     }],
+    get_polygon_parent : [auth.authenticate(), function(req, res) {
+        InteresAreaModel.findAll({
+            where: {
+                parent_fk: req.user.parentId
+            },
+            include: [{
+                model: InteresPointModel,
+                as: 'interespoints'
+            }]
+        }).then(function(interesAreas) {
+            res.json(interesAreas);
+        });
+    }],
     delete_polygon : [auth.authenticate(), function(req, res) {
         InteresPointModel.destroy({
             where: {

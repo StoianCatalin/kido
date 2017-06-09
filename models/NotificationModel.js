@@ -26,10 +26,13 @@ module.exports = function(sequelize, DataTypes) {
                     key: 'id'
                 }
             },
-            type: {
-                type: DataTypes.INTEGER,
-                field: 'type',
-                notNull: true
+            color: {
+               type: DataTypes.STRING,
+                field: 'color'
+            },
+            icon: {
+                type: DataTypes.STRING,
+                field: 'icon'
             },
             message: {
                 type: DataTypes.STRING,

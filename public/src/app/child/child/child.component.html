@@ -1,11 +1,13 @@
 <div class="card">
-  <agm-map [latitude]="lat" [longitude]="lng" [zoom]="zoom">
+  <agm-map [latitude]="lat" [longitude]="lng" [zoom]="zoom" [streetViewControl]="false">
     <agm-marker *ngFor="let marker of markers"
                 [latitude]="marker.latitude"
                 [longitude]="marker.longitude"
                 [title]="marker.nume"
                 [iconUrl]="marker.type == 'child' ? 'assets/images/child.png' : 'assets/images/parent.png'">
     </agm-marker>
+    <agm-polygon *ngFor="let paths of polygons" [paths]="paths"></agm-polygon>
+    <agm-circle *ngFor="let circle of circles" [longitude]="circle.longitude" [latitude]="circle.latitude" [radius]="circle.radius"></agm-circle>
   </agm-map>
   <h3 class="ui dividing header">
     Motion controllers
@@ -20,8 +22,9 @@
     Alert controllers
   </h3>
   <div class="content">
-    <button class="ui button red">Danger</button>
-    <button class="ui button orange">Warning</button>
-    <button class="ui button orange"><i class="icon paw"></i>Animal danger</button>
+    <button class="ui button red" (click)="collisionAlert()"><i class="icon bomb"></i>Collision</button>
+    <button class="ui button orange" (click)="groundbreaking()">Groundbreaking</button>
+    <button class="ui button orange" (click)="animalNearby()"><i class="icon paw"></i>Animal nearby</button>
+    <button class="ui button green" (click)="imFine()"><i class="icon smile"></i>I'm fine.</button>
   </div>
 </div>
