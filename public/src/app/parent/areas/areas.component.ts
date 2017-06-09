@@ -47,6 +47,10 @@ export class AreasComponent implements OnInit {
     this.initAreas();
   }
 
+  /*
+   @brief Initializeaza toate zonele sigure create pana in acel moment.
+   @how Apeland endpoint-uri specifice.
+   */
   initAreas() {
     this.areas = [];
     this.polygons = [];
@@ -85,6 +89,10 @@ export class AreasComponent implements OnInit {
       });
   }
 
+  /*
+   @brief Sterge o area.
+   @how Apeland un endpoint.
+   */
   removeArea(id : number) {
     this.areaService.removeArea(id)
       .subscribe(() => {
@@ -97,12 +105,20 @@ export class AreasComponent implements OnInit {
       });
   }
 
+  /*
+   @brief Activeaza modul de a creea un polygon area.
+   @how Schimband variabila createModePoly.
+   */
   togglePolyMode() {
     $('.tooltiped').popup('hide');
     this.createModePoly = !this.createModePoly;
     this.createModeCircle = false;
   }
 
+  /*
+   @brief Activeaza modul de a creea un polygon area.
+   @how Schimband variabila createModePoly.
+   */
   toggleCircleMode() {
     $('.tooltiped').popup('hide');
     this.createModeCircle = !this.createModeCircle;
@@ -114,6 +130,10 @@ export class AreasComponent implements OnInit {
     }
   }
 
+  /*
+   @brief Creaza incipitul de polygon/cerc
+   @how Folosind date dummy, afiseaza niste zone de interes incipitorii pana la salvarea lor.
+   */
   clickManager({coords}) {
     if (this.createModePoly) {
       this.createPolygone(coords)
@@ -141,6 +161,10 @@ export class AreasComponent implements OnInit {
     this.testCircle.longitude = coords.lng;
   }
 
+  /*
+   @brief Salveaza un polygon.
+   @how Apeleaza un endpoint de pe server si anunta copiii de noua zona de interes.
+   */
   savePolygon() {
     if (this.testPoints.length > 0) {
       this.polygons.push(this.testPoints);
@@ -158,6 +182,10 @@ export class AreasComponent implements OnInit {
     this.createModePoly = false;
   }
 
+  /*
+   @brief Salveaza un cerc.
+   @how Apeleaza un endpoint de pe server si anunta copiii de noua zona de interes.
+   */
   saveCircle() {
     this.circles.push(this.testCircle);
     this.areaService.createCircleArea(this.testCircle)

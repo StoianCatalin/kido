@@ -15,6 +15,10 @@ export class UserService {
 
   constructor(private httpClient: HttpClientService, private authService: AuthService) {}
 
+  /*
+   @brief Returneaza informatiile despre utilizatorul curent.
+   @how
+   */
   getMe() {
     return this.httpClient.get(this.getMeURL)
       .map(response => response.json())

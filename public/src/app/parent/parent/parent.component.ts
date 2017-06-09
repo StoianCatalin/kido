@@ -43,6 +43,10 @@ export class ParentComponent implements OnInit {
     this.listenNotifications();
   }
 
+  /*
+   @brief Initializeaza informatiile despre parintele logat + copiii lui.
+   @how Face apel la endpoint-uri trangad datele de pe server.
+   */
   initMeAndUsers() {
     this.me = this.authService.getUser();
     this.locationService.myCurrentLocation()
@@ -60,6 +64,10 @@ export class ParentComponent implements OnInit {
       });
   }
 
+  /*
+   @brief Asculta daca un copil se conecteaza si il afiseaza pe harta.
+   @how Prin websockets.
+   */
   initNewConnection() {
     this.socket.on('newConnection', (user) => {
       if (user.id != this.me.id) {
@@ -74,6 +82,10 @@ export class ParentComponent implements OnInit {
     });
   }
 
+  /*
+   @brief Asculta cand un copil isi schimba pozitia pe harta.
+   @how Prin websockets.
+   */
   initMoveOnMap() {
     this.socket.on('moveOnMap', (coordinates) => {
       let marker = this.markers.find((mark) => {
@@ -88,6 +100,10 @@ export class ParentComponent implements OnInit {
     });
   }
 
+  /*
+   @brief Initializeaza toate zonele sigure create pana in acel moment.
+   @how Apeland endpoint-uri specifice.
+   */
   initAreas() {
     this.polygons = [];
     this.circles = [];
@@ -115,6 +131,10 @@ export class ParentComponent implements OnInit {
       });
   }
 
+  /*
+   @brief Asculta daca primeste notificari noi de la copiii sai si le afiseaza. Face focus on child.
+   @how Prin websockets.
+   */
   listenNotifications() {
     this.socket.on('pushNotification', (notification) => {
       this.notification = notification;
@@ -130,6 +150,10 @@ export class ParentComponent implements OnInit {
     });
   }
 
+  /*
+   @brief Orienteaza harta cu centrul pe locatia unui copil.
+   @how Schimba latitudinea si longitudinea centrului hartii.
+   */
   focusOnChild(child) {
     let locations = this.markers.find((item) => {
       return item.id == child.id;
@@ -138,6 +162,10 @@ export class ParentComponent implements OnInit {
     this.lng = locations.longitude;
   }
 
+  /*
+   @brief Deseneaza pe harta drumul pe unde a mers copilul primit ca parametru.
+   @how Folosind google maps API.
+   */
   showHistory(child) {
     if (this.historyPoints == child.locations)
       this.historyPoints = [];
@@ -145,6 +173,10 @@ export class ParentComponent implements OnInit {
       this.historyPoints = child.locations;
   }
 
+  /*
+   @brief Sterge un copil.
+   @how Apeleaza un endpoint pentru stergerea copilului.
+   */
   deleteUser(child) {
     this.parentService.deleteChild(child)
       .subscribe(response => {

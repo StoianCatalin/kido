@@ -18,6 +18,10 @@ export class AuthLoginComponent implements OnInit {
   ngOnInit() {
   }
 
+  /*
+   @brief Functie apelata pentru a face authentificarea.
+   @how Apeleaza un endpoint de autentificare. Primeste inapoi un token.
+   */
   submit() {
     this.userService.login(this.email, this.password).subscribe((response) => {
       this.userService.getMe().subscribe((user) => {

@@ -35,6 +35,11 @@ export class ChildComponent implements OnInit {
     private areaService: AreaService
   ) { }
 
+
+  /*
+  @brief Este apelata cand componenta este initializata. Initializeaza si aduce de pe backend toate datele necesare. De asemenea porneste evenimentele de ascultate pentru websocket-uri.
+  @how Folosindu-se de serviile injectate apeleaza endpoint-urile specifice pentru a aduce informatia de pe server.
+   */
   ngOnInit() {
     this.me = this.authService.getUser();
     this.locationService.myCurrentLocation()
@@ -59,7 +64,10 @@ export class ChildComponent implements OnInit {
     this.listenDeleteAreas();
   }
 
-
+  /*
+   @brief Verifica daca un copil este safe in momentul in care isi schimba locatia.
+   @how Folosind algoritmi specifici, vedem daca coordonatele copilului sunt in interiorul zonelor sigure.
+   */
   checkSafeStatus() {
     this.polygons.forEach((polygon) => {
       if (!this.safePolygonStatus) {
@@ -73,6 +81,10 @@ export class ChildComponent implements OnInit {
     });
   }
 
+  /*
+   @brief Aduce de pe backend toate zonele sigure definite de parinte.
+   @how Apeland endpoint-ul specific acestei actiuni.
+   */
   initAreas() {
     this.circles = [];
     this.polygons = [];
@@ -101,6 +113,10 @@ export class ChildComponent implements OnInit {
       });
   }
 
+  /*
+   @brief Muta copilul pe harta intr-o directie specificata.
+   @how Adaugand 0.00005 in directia dorita.
+   */
   move(direction : string) : void {
     if (direction == 'left'){
       this.myMarker.longitude = this.myMarker.longitude - 0.00005;
@@ -118,6 +134,10 @@ export class ChildComponent implements OnInit {
     this.socket.emit('moveOnMap', {latitude: this.myMarker.latitude, longitude: this.myMarker.longitude});
   }
 
+  /*
+   @brief Asculta si adauga daca parintele a definit o noua zona sigura.
+   @how Prin intermediul websocket-urilor.
+   */
   listenNewAreas() {
     this.socket.on('pushArea', (area) => {
       if (area.type == 'circle') {
@@ -127,6 +147,10 @@ export class ChildComponent implements OnInit {
     });
   }
 
+  /*
+   @brief Trimite notificare la parinte daca copilul isi schimba statutul de siguranta.
+   @how Facand verificarea pentru fiecare zona sigura definita, iar daca copilul isi schimba statusul, va trimite o notificare la parinte.
+   */
   checkIfChildIsSafe(marker) {
     let safePolygonStatus = this.safePolygonStatus;
     let safeCircleStatus = this.safeCircleStatus;
@@ -179,20 +203,36 @@ export class ChildComponent implements OnInit {
     this.safePolygonStatus = safePolygonStatus;
   }
 
+  /*
+   @brief Asculta daca parintele a sters o zona de siguranta.
+   @how Prin websocket-uri.
+   */
   listenDeleteAreas() {
     this.socket.on('deleteArea', (area) => {
       this.initAreas();
     });
   }
 
+  /*
+   @brief Functie care adauga o zona sigura de tipul cerc pe harta.
+   @how
+   */
   addNewCircle(circle) {
     this.circles.push(circle);
   }
 
+  /*
+   @brief Functie care adauga o zona sigura de tipul polygon pe harta.
+   @how
+   */
   addNewPolygon(polygon) {
     this.polygons.push(polygon);
   }
 
+  /*
+   @brief Trimite notificare parintelui
+   @how Prin websockets emitand in emenimentul pushNotification.
+   */
   collisionAlert() {
     this.socket.emit('pushNotification', {
       id: this.me.id,
@@ -202,6 +242,10 @@ export class ChildComponent implements OnInit {
     });
   }
 
+  /*
+   @brief Trimite notificare parintelui
+   @how Prin websockets emitand in emenimentul pushNotification.
+   */
   groundbreaking() {
     this.socket.emit('pushNotification', {
       id: this.me.id,
@@ -211,6 +255,10 @@ export class ChildComponent implements OnInit {
     });
   }
 
+  /*
+   @brief Trimite notificare parintelui
+   @how Prin websockets emitand in emenimentul pushNotification.
+   */
   animalNearby() {
     this.socket.emit('pushNotification', {
       id: this.me.id,
@@ -220,6 +268,10 @@ export class ChildComponent implements OnInit {
     });
   }
 
+  /*
+   @brief Trimite notificare parintelui
+   @how Prin websockets emitand in emenimentul pushNotification.
+   */
   imFine() {
     this.socket.emit('pushNotification', {
       id: this.me.id,
@@ -229,6 +281,10 @@ export class ChildComponent implements OnInit {
     });
   }
 
+  /*
+   @brief Verifica daca un punct dat face parte din polygon.
+   @how Printr-un algoritm specific.
+   */
   rayCasting(point, polygon) : boolean {
     let x = point.latitude, y = point.longitude;
     let inside = false;
@@ -243,6 +299,10 @@ export class ChildComponent implements OnInit {
     return inside;
   };
 
+  /*
+   @brief Verifica daca un punct este in raza unui cerc.
+   @how Printr-un algoritm specific. Matematica elementara.
+   */
   pointInCircle(point, circle) {
     let GOOGLEMAP_ERROR = 10000000000;
     console.log(Math.pow((point.latitude - circle.latitude),2)*GOOGLEMAP_ERROR + Math.pow((point.longitude - circle.longitude), 2)*GOOGLEMAP_ERROR, Math.pow(circle.radius, 2));

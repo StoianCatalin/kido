@@ -35,6 +35,10 @@ export class AuthRegisterComponent implements OnInit, AfterViewInit {
     this.user.type = data;
   }
 
+  /*
+   @brief Verifica informatiile si apeleaza endpoint-ul de inregistrare a unui cont.
+   @how Trimite date la server si cere inapoi un token.
+   */
   submit() {
     if (this.registerForm.valid) {
       this.userService.register(this.user)
